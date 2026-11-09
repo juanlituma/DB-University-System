@@ -81,3 +81,75 @@ th {
 [hidden] {
   display: none !important;
 }
+
+
+
+.main-navigation {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 12px;
+}
+
+.nav-button {
+    flex: 1;
+    background: #e5e9f0;
+    color: #333;
+    font-size: 16px;
+}
+
+.nav-button:hover {
+    background: #d5dce8;
+}
+
+.nav-button.active {
+    background: #2457c5;
+    color: white;
+}
+
+
+/* Enrollment autocomplete search */
+
+.search-field {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.search-field input[type="text"] {
+    width: 100%;
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-height: 180px;
+    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-results:empty {
+    display: none;
+}
+
+.search-results button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: white;
+    color: #333;
+    border: none;
+    border-radius: 0;
+    text-align: left;
+    cursor: pointer;
+}
+
+.search-results button:hover {
+    background: #e5e9f0;
+}

@@ -10,15 +10,6 @@ CREATE TABLE Courses(
 	created_at TIMESTAMP
 );
 
-CREATE TABLE Enrollments(
-	enrollments_id INTEGER PRIMARY KEY,
-	student_id INTEGER NOT NULL,
-	course_id INTEGER NOT NULL,
-	registration_date TEXT NOT NULL,
-	FOREIGN KEY (student_id) REFERENCES Students(student_id),
-	FOREIGN KEY (course_id) REFERENCES Courses(student_id)
-	);
-	
 CREATE TABLE Students (
 	student_id	INTEGER PRIMARY KEY,
 	first_name 	VARCHAR(50) NOT NULL,
@@ -26,3 +17,14 @@ CREATE TABLE Students (
 	email		VARCHAR(100) UNIQUE NOT NULL,
 	created_at  TIMESTAMP
 );
+
+--To improve: constraint to avoid same student in the same Course
+CREATE TABLE Enrollments(
+	enrollments_id INTEGER PRIMARY KEY,
+	student_id INTEGER NOT NULL,
+	course_id INTEGER NOT NULL,
+	registration_date TEXT NOT NULL,
+	FOREIGN KEY (student_id) REFERENCES Students(student_id),
+	FOREIGN KEY (course_id) REFERENCES Courses(course_id)
+	);
+	

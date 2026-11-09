@@ -10,72 +10,302 @@
   <body>
     <main class="container">
       <h1>Student Management System</h1>
+      <nav class="main-navigation">
+        <button id="students-tab" class="nav-button active" type="button">
+          Students
+        </button>
 
-      <section class="card">
-        <h2>Add a Student</h2>
+        <button id="courses-tab" class="nav-button" type="button">
+          Courses
+        </button>
+        <button id="enrollments-tab" class="nav-button" type="button">
+          Enrollments
+        </button>
+      </nav>
+      <div id="students-section">
+        <section class="card">
+          <div id="form-container">
+            <div id="add-section">
+              <h2>Add a Student</h2>
 
-        <form id="student-form">
-          <label for="first_name">First Name</label>
-          <input id="first_name" name="first_name" maxlength="50" required />
+              <form id="student-form">
+                <label for="first_name">First Name</label>
+                <input
+                  id="first_name"
+                  name="first_name"
+                  maxlength="50"
+                  required
+                />
 
-          <label for="last_name">Last Name</label>
-          <input id="last_name" name="last_name" maxlength="50" required />
+                <label for="last_name">Last Name</label>
+                <input
+                  id="last_name"
+                  name="last_name"
+                  maxlength="50"
+                  required
+                />
 
-          <label for="email">Email</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            maxlength="100"
-            required
-          />
+                <label for="email">Email</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  maxlength="100"
+                  required
+                />
 
-          <button type="submit">Add Student</button>
-        </form>
-        <form id="edit-form" hidden>
-          <h3>Edit Student</h3>
+                <button type="submit">Add Student</button>
+              </form>
+            </div>
 
-          <input type="hidden" id="edit-student-id" />
+            <div id="edit-section" hidden>
+              <h3>Edit Student</h3>
+              <form id="edit-form">
+                <input type="hidden" id="edit-student-id" />
 
-          <label for="edit-first-name">First Name</label>
-          <input id="edit-first-name" maxlength="50" required />
+                <label for="edit-first-name">First Name</label>
+                <input id="edit-first-name" maxlength="50" required />
 
-          <label for="edit-last-name">Last Name</label>
-          <input id="edit-last-name" maxlength="50" required />
+                <label for="edit-last-name">Last Name</label>
+                <input id="edit-last-name" maxlength="50" required />
 
-          <label for="edit-email">Email</label>
-          <input id="edit-email" type="email" maxlength="100" required />
+                <label for="edit-email">Email</label>
+                <input id="edit-email" type="email" maxlength="100" required />
 
-          <button type="submit">Save Changes</button>
-          <button type="button" id="cancel-edit">Cancel</button>
-        </form>
+                <button type="submit">Save Changes</button>
+                <button type="button" id="cancel-edit">Cancel</button>
+              </form>
+            </div>
+          </div>
+          <p id="message" role="status"></p>
+        </section>
 
-        <p id="message" role="status"></p>
-      </section>
+        <section class="card">
+          <h2>Existing Students</h2>
 
-      <section class="card">
-        <h2>Existing Students</h2>
+          <button id="refresh-button" type="button">Refresh List</button>
 
-        <button id="refresh-button" type="button">Refresh List</button>
+          <p id="loading-message">Loading students...</p>
 
-        <p id="loading-message">Loading students...</p>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Email</th>
+                  <th>Created At</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="students-table"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
 
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Created At</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="students-table"></tbody>
-          </table>
-        </div>
-      </section>
+      <div id="courses-section" hidden>
+        <section class="card">
+          <div id="add-course-section">
+            <h2>Add a Course</h2>
+
+            <form id="course-form">
+              <label for="course-code">Course Code</label>
+              <input
+                id="course-code"
+                name="course_code"
+                maxlength="10"
+                required
+              />
+
+              <label for="course-credits">Credits</label>
+              <input
+                id="course-credits"
+                name="credits"
+                type="number"
+                min="0"
+                step="1"
+                required
+              />
+
+              <button type="submit">Add Course</button>
+            </form>
+          </div>
+
+          <div id="edit-course-section" hidden>
+            <h2>Edit Course</h2>
+
+            <form id="edit-course-form">
+              <input type="hidden" id="edit-course-id" />
+
+              <label for="edit-course-code">Course Code</label>
+              <input id="edit-course-code" maxlength="10" required />
+
+              <label for="edit-course-credits">Credits</label>
+              <input
+                id="edit-course-credits"
+                type="number"
+                min="0"
+                step="1"
+                required
+              />
+
+              <button type="submit">Save Changes</button>
+
+              <button type="button" id="cancel-course-edit">Cancel</button>
+            </form>
+          </div>
+
+          <p id="course-message" role="status"></p>
+        </section>
+
+        <section class="card">
+          <h2>Existing Courses</h2>
+
+          <button id="refresh-courses" type="button">Refresh List</button>
+
+          <p id="courses-loading">Loading courses...</p>
+
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Course Code</th>
+                  <th>Credits</th>
+                  <th>Created At</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody id="courses-table"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <div id="enrollments-section" hidden>
+        <section class="card">
+          <div id="add-enrollment-section">
+            <h2>Register a Student in a Course</h2>
+
+            <form id="enrollment-form">
+              <div class="search-field">
+                <label for="enrollment-student-search">Student</label>
+                <input
+                  type="text"
+                  id="enrollment-student-search"
+                  placeholder="Search student by name..."
+                  autocomplete="off"
+                  required
+                />
+                <div
+                  id="enrollment-student-results"
+                  class="search-results"
+                ></div>
+                <input type="hidden" id="enrollment-student" />
+              </div>
+
+              <div class="search-field">
+                <label for="enrollment-course-search">Course</label>
+                <input
+                  type="text"
+                  id="enrollment-course-search"
+                  placeholder="Search course by code..."
+                  autocomplete="off"
+                  required
+                />
+                <div
+                  id="enrollment-course-results"
+                  class="search-results"
+                ></div>
+                <input type="hidden" id="enrollment-course" />
+              </div>
+
+              <label for="registration-date"> Registration Date </label>
+
+              <input id="registration-date" type="date" required />
+
+              <button type="submit">Create Enrollment</button>
+            </form>
+          </div>
+
+          <div id="edit-enrollment-section" hidden>
+            <h2>Edit Enrollment</h2>
+
+            <form id="edit-enrollment-form">
+              <input type="hidden" id="edit-enrollment-id" />
+
+              <div class="search-field">
+                <label for="edit-enrollment-student-search">Student</label>
+                <input
+                  type="text"
+                  id="edit-enrollment-student-search"
+                  placeholder="Search student by name..."
+                  autocomplete="off"
+                  required
+                />
+                <div
+                  id="edit-enrollment-student-results"
+                  class="search-results"
+                ></div>
+                <input type="hidden" id="edit-enrollment-student" />
+              </div>
+
+              <div class="search-field">
+                <label for="edit-enrollment-course-search">Course</label>
+                <input
+                  type="text"
+                  id="edit-enrollment-course-search"
+                  placeholder="Search course by code..."
+                  autocomplete="off"
+                  required
+                />
+                <div
+                  id="edit-enrollment-course-results"
+                  class="search-results"
+                ></div>
+                <input type="hidden" id="edit-enrollment-course" />
+              </div>
+
+              <label for="edit-registration-date"> Registration Date </label>
+
+              <input id="edit-registration-date" type="date" required />
+
+              <button type="submit">Save Changes</button>
+
+              <button type="button" id="cancel-enrollment-edit">Cancel</button>
+            </form>
+          </div>
+
+          <p id="enrollment-message" role="status"></p>
+        </section>
+
+        <section class="card">
+          <h2>Existing Enrollments</h2>
+
+          <button id="refresh-enrollments" type="button">Refresh List</button>
+
+          <p id="enrollments-loading">Loading enrollments...</p>
+
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Student</th>
+                  <th>Course</th>
+                  <th>Registration Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody id="enrollments-table"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
     </main>
   </body>
 </html>
