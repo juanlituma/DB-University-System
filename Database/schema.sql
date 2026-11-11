@@ -18,7 +18,6 @@ CREATE TABLE Students (
 	created_at  TIMESTAMP
 );
 
---To improve: constraint to avoid same student in the same Course
 CREATE TABLE Enrollments(
 	enrollments_id INTEGER PRIMARY KEY,
 	student_id INTEGER NOT NULL,
