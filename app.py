@@ -2,11 +2,12 @@
 from flask import Flask, render_template, request, jsonify
 import sqlite3
 from pathlib import Path
+from models import Student, Course, Enrollment
 
 app = Flask(__name__)
 
 # Database file in the same folder as app.py
-DATABASE = Path(r"C:\Users\juani\Projects\University-system\Database\DBUniversity.db")
+DATABASE = Path(r"C:\Users\juani\Projects\University-system\database\DBUniversity.db")
 
 
 def get_db_connection():
@@ -24,7 +25,7 @@ def home():
 @app.route("/api/students", methods=["GET"])
 def get_students():
     with get_db_connection() as connection:
-        students = connection.execute(
+        rows = connection.execute(
             """
             SELECT student_id, first_name, last_name, email, created_at
             FROM Students
@@ -32,7 +33,18 @@ def get_students():
             """
         ).fetchall()
 
-    return jsonify([dict(student) for student in students])
+    students = [
+        Student(
+            row["student_id"],
+            row["first_name"],
+            row["last_name"],
+            row["email"],
+            row["created_at"]
+        )
+        for row in rows
+    ]
+
+    return jsonify([student.to_dict() for student in students])
 
 
 # Add a new student
@@ -111,16 +123,22 @@ def update_student(student_id):
 # Delete an existing student
 @app.route("/api/students/<int:student_id>", methods=["DELETE"])
 def delete_student(student_id):
-    with get_db_connection() as connection:
-        cursor = connection.execute(
-            "DELETE FROM Students WHERE student_id = ?",
-            (student_id,)
-        )
+    try:
+        with get_db_connection() as connection:
+            cursor = connection.execute(
+                "DELETE FROM Students WHERE student_id = ?",
+                (student_id,)
+            )
 
-        if cursor.rowcount == 0:
-            return jsonify({"error": "Student not found."}), 404
+            if cursor.rowcount == 0:
+                return jsonify({"error": "Student not found."}), 404
 
-    return jsonify({"message": "Student deleted successfully."})
+        return jsonify({"message": "Student deleted successfully."})
+
+    except sqlite3.IntegrityError:
+        return jsonify({
+            "error": "Cannot delete this student because they have existing enrollments."
+        }), 409
 
 
 
@@ -133,15 +151,23 @@ def delete_student(student_id):
 @app.route("/api/courses", methods=["GET"])
 def get_courses():
     with get_db_connection() as connection:
-        courses = connection.execute(
+        rows = connection.execute(
             """
             SELECT course_id, course_code, credits, created_at
             FROM Courses
             ORDER BY course_id DESC
             """
         ).fetchall()
-
-    return jsonify([dict(course) for course in courses])
+    courses = [
+        Course(
+            row["course_id"],
+            row["course_code"],
+            row["credits"],
+            row["created_at"]
+        )
+        for row in rows
+    ]
+    return jsonify([course.to_dict() for course in courses])
 
 
 # ==================================
@@ -235,16 +261,22 @@ def update_course(course_id):
 
 @app.route("/api/courses/<int:course_id>", methods=["DELETE"])
 def delete_course(course_id):
-    with get_db_connection() as connection:
-        cursor = connection.execute(
-            "DELETE FROM Courses WHERE course_id = ?",
-            (course_id,)
-        )
+    try:
+        with get_db_connection() as connection:
+            cursor = connection.execute(
+                "DELETE FROM Courses WHERE course_id = ?",
+                (course_id,)
+            )
 
-        if cursor.rowcount == 0:
-            return jsonify({"error": "Course not found."}), 404
+            if cursor.rowcount == 0:
+                return jsonify({"error": "Course not found."}), 404
 
-    return jsonify({"message": "Course deleted successfully."})
+        return jsonify({"message": "Course deleted successfully."})
+
+    except sqlite3.IntegrityError:
+        return jsonify({
+            "error": "Cannot delete this course because it has existing enrollments."
+        }), 409
 
 
 
@@ -255,7 +287,7 @@ def delete_course(course_id):
 @app.route("/api/enrollments", methods=["GET"])
 def get_enrollments():
     with get_db_connection() as connection:
-        enrollments = connection.execute(
+        rows = connection.execute(
             """
             SELECT
                 E.enrollments_id,
@@ -272,7 +304,20 @@ def get_enrollments():
             """
         ).fetchall()
 
-    return jsonify([dict(enrollment) for enrollment in enrollments])
+    enrollments = [
+        Enrollment(
+            row["enrollments_id"],
+            row["student_id"],
+            row["course_id"],
+            row["registration_date"],
+            row["first_name"],
+            row["last_name"],
+            row["course_code"]
+        )
+        for row in rows
+    ]
+
+    return jsonify([enrollment.to_dict() for enrollment in enrollments])
 
 
 
