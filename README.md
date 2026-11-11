@@ -123,7 +123,7 @@ To stop the Flask development server, press:
 CTRL + C
 ```
 
-If you are using a virtual environment, you can deactivate it with:
+You can deactivate the virtual variable with:
 
 ```bash
 deactivate
