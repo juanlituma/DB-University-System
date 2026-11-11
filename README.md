@@ -45,7 +45,7 @@ Repository/
 
 ## Requirements
 
-Before running the project, make sure you have installed:
+Before running the project, you need:
 
 - Python 3.10 or later
 - Git
@@ -53,7 +53,7 @@ Before running the project, make sure you have installed:
 
 ## Installation and Setup
 
-### 1. Open the directory
+### 1. Open the directory (VSCode)
 
 Navigate into the project directory:
 
@@ -111,8 +111,6 @@ Open your browser and navigate to:
 ```text
 http://127.0.0.1:5000
 ```
-
-The University Management System should now be running.
 
 
 ## 5. Stop the Application
